@@ -114,7 +114,16 @@ class HTTPClient(object):
         port = self.get_port(url_req)
         path = self.get_path(url_req)
         query = self.get_query(url_req)
-        
+
+        if args != None:
+            string = urllib.parse.urlencode(args)
+            if query != '':
+                # have query in url parameter and ask arguements passed in
+                query += "&" + string
+            else:
+                # have query parameters as arguements passed in 
+                query = "?" + string 
+
         payload = f"GET {path}{query} HTTP/1.1\r\nHost: {hostname}\r\nUser-Agent: Mozilla/5.0\r\nConnection: close\r\n\r\n" 
 
         # send and receive the data from the host
